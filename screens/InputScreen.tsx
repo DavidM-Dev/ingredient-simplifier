@@ -1,18 +1,23 @@
-import React, { FC } from 'react';
-import { TextInput, Text, View, TextStyle } from 'react-native';
+import React, { FC, useState } from 'react';
+import { TextInput, Text, View, StyleSheet, Keyboard, Button } from 'react-native';
 
-const TableItem: FC = () => {
-    const [input, setInput] = React.useState('hello');
+interface InputBoxProps {
+    input: string;
+    setInput(newText: string): void;
+}
 
+const InputBox: FC<InputBoxProps> = ({ input, setInput }) => {
     return (
         <View
         style={{
-            flex: 1,
             alignItems: 'stretch',
-            padding: 10,
             borderWidth: 0.5,
             borderColor: '#858D99',
-            margin: 20
+            padding: 10,
+            marginHorizontal: 20,
+            marginVertical: 5,
+            borderRadius: 12
+
         }}
         >
             <TextInput 
@@ -20,23 +25,57 @@ const TableItem: FC = () => {
                 setInput(newText);
             }}
             value={input} 
-            editable
+            returnKeyType="done"
+            blurOnSubmit={true}
+            onSubmitEditing={() => {Keyboard.dismiss}}
+            placeholder="Type ingredient here"
             />
         </View>
     );
 }
 
-
 const InputScreen = () => {
+    const [ ingredients, setIngredients ] = useState(['','','']);
+
     return (
         <View>
-            <TableItem />
-            <TableItem />
-            <TableItem />
-            <TableItem />
-            <TableItem />
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>Ingredient Input</Text>
+            </View>
+            {ingredients.map((ingr, idx) => (
+                <InputBox 
+                    key={idx}
+                    input={ingr}
+                    setInput={(newIngr) => {
+                        setIngredients([
+                            ...ingredients.slice(0,idx), 
+                            newIngr, 
+                            ...ingredients.slice(idx+1)
+                        ]);
+                    }}
+                />
+            ))}
+            <Button 
+                title="Add ingredient"
+                onPress={() => {
+                    setIngredients([...ingredients, '']);
+                }}
+            />
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    titleContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 20
+    }
+});
 
 export default InputScreen;
