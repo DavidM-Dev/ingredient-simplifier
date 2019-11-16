@@ -35,9 +35,12 @@ const InputBox: FC<InputBoxProps> = ({ input, setInput }) => {
 }
 
 function cleanIngredients(ingredients: string[]): string[] {
+    // remove whitespace from the start and end of each ingredient, and convert to lowercase
     ingredients = ingredients.map((ingr) => {
         return ingr.trim().toLowerCase();
     });
+
+    // filter out empty strings and duplicates
     ingredients = ingredients.filter((value, index, self) => {
         return value != '' && self.indexOf(value) === index;
     });
