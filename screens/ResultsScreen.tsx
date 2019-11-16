@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 import { Text, View, StyleSheet, TextStyle } from 'react-native';
 
+interface StringToString { [key: string]: string }
+
 // the given sample data
-const myData = {
-  'High Fructose Corn Syrup': 'sugar',
-  'Maltodextrin': 'sugar',
+const lookupTable: StringToString = {
+  'high fructose corn syrup': 'sugar',
+  'maltodextrin': 'sugar',
   'dextrose': 'sugar',
 };
 
@@ -30,8 +32,17 @@ const TableItem: FC<TableItemProps> = ({ val, textStyle }) => (
   </View>
 );
 
-export default function ResultsScreen() {
+export default function ResultsScreen({ navigation }) {
   
+  const myData: StringToString = {};
+  navigation.getParam('ingredients', []).forEach((ingr) => {
+    if(lookupTable[ingr]) {
+      myData[ingr] = lookupTable[ingr];
+    } else {
+      myData[ingr] = '???';
+    }
+  });
+
   // this defines an array of containers, each container representing a row
   const myRows = Object.entries(myData).map(([key, value], idx) => (
     <View style={styles.row} key={idx}>

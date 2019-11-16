@@ -34,9 +34,19 @@ const InputBox: FC<InputBoxProps> = ({ input, setInput }) => {
     );
 }
 
-const InputScreen = () => {
-    const [ ingredients, setIngredients ] = useState(['','','']);
+function cleanIngredients(ingredients: string[]): string[] {
+    ingredients = ingredients.map((ingr) => {
+        return ingr.trim().toLowerCase();
+    });
+    ingredients = ingredients.filter((value, index, self) => {
+        return value != '' && self.indexOf(value) === index;
+    });
+    return ingredients;
+}
 
+const InputScreen = ({ navigation }) => {
+    const [ ingredients, setIngredients ] = useState(['','','']);
+    
     return (
         <View>
             <View style={styles.titleContainer}>
@@ -59,6 +69,14 @@ const InputScreen = () => {
                 title="Add ingredient"
                 onPress={() => {
                     setIngredients([...ingredients, '']);
+                }}
+            />
+            <Button 
+                title="Submit"
+                onPress={() => {
+                    navigation.navigate('results', { 
+                        ingredients: cleanIngredients(ingredients) 
+                    });
                 }}
             />
         </View>
