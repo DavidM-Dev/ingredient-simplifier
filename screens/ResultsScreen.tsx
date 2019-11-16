@@ -51,10 +51,23 @@ export default function ResultsScreen({ navigation }) {
     </View>
   ));
 
+  if(!navigation.getParam('ingredients', false)) {
+    return (
+    <View style={{
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      padding: 50
+    }}>
+      <Text style={styles.errorText}>You haven't entered any ingredients yet!</Text>
+      <Text style={styles.errorText}>Go to the Camera tab or the Input tab to start analyzing ingredients.</Text>
+    </View>);
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.table}>
-        
         {/* the first row represents the header row */}
         <View style={styles.row}>
           <TableItem val="Original" textStyle={styles.tableHeader} />
@@ -65,6 +78,7 @@ export default function ResultsScreen({ navigation }) {
         </View>
 
         { myRows /* all of our data is included here */ }
+
       </View>
     </View>
   );
@@ -85,4 +99,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
   },
+  errorText: {
+    textAlign: 'center',
+    fontSize: 18,
+    marginVertical: 10
+  }
 });
