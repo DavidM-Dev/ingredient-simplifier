@@ -9,26 +9,26 @@ interface InputBoxProps {
 const InputBox: FC<InputBoxProps> = ({ input, setInput }) => {
     return (
         <View
-        style={{
-            alignItems: 'stretch',
-            borderWidth: 0.5,
-            borderColor: '#858D99',
-            padding: 10,
-            marginHorizontal: 20,
-            marginVertical: 5,
-            borderRadius: 12
-
-        }}
+            style={{
+                alignItems: 'stretch',
+                borderWidth: 0.5,
+                borderColor: '#858D99',
+                padding: 10,
+                marginHorizontal: 20,
+                marginVertical: 5,
+                borderRadius: 12
+            }}
         >
             <TextInput 
-            onChangeText={(newText) => {
-                setInput(newText);
-            }}
-            value={input} 
-            returnKeyType="done"
-            blurOnSubmit={true}
-            onSubmitEditing={() => {Keyboard.dismiss}}
-            placeholder="Type ingredient here"
+                onChangeText={(newText) => {
+                    setInput(newText);
+                }}
+                value={input} 
+                returnKeyType="done"
+                blurOnSubmit={true}
+                onSubmitEditing={() => {Keyboard.dismiss}}
+                placeholder="Type ingredient here"
+                style={{fontSize: 18}}
             />
         </View>
     );
@@ -85,7 +85,7 @@ const InputScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     title: {
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold'
     },
     titleContainer: {
